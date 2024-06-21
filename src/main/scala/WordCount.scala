@@ -10,20 +10,15 @@ object WordCount {
     val lines: RDD[String] = sc.textFile(
       "src/main/resources/words.txt"
     )
-    val wordsRDD = sc.makeRDD(List("a","a","b"))
 
-    wordsRDD.map(x=>(x,1)).reduceByKey(_ + _).collect()
-      .foreach(println)
-
-    val words = lines
+    lines
       .flatMap(_.split(" "))
-      .map(word => (word, 1))
-      .reduceByKey(_ + _)
+      .map(word => (word, 1)) //转换成key value pair之后才能用by key操作
+      .reduceByKey((v1, v2) => v1 + v2)
+      .sortBy(x => x._2, false)
       .collect()
-
-    println(words.mkString("Array(", ", ", ")"))
-
-    sc.stop();
+      .foreach(println)
+    sc.stop()
 
   }
 

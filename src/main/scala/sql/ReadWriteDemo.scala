@@ -5,7 +5,7 @@ import org.apache.spark.sql.SparkSession
 
 import scala.util.matching.Regex
 
-object basic {
+object ReadWriteDemo {
 
   val conf = new SparkConf()
     .setMaster("local")
