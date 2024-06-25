@@ -9,10 +9,17 @@ object ByKeyOperations {
   val sc = new SparkContext(SparkConf)
 
   private def aggregate(): Unit = {
+    /**
+     * aggregateByKey返回的结果可以跟RDD中不同
+     * 需要提供
+     *  1.zeroValue, 类型可以跟(K,V)中的V不同
+     *  2.分区内合并方法，返回值必须跟zeroValue同类型
+     *  3.分区间合并方法，参数和返回值都必须跟zeroValue同类型
+     */
     val rdd = sc.makeRDD(List(('a',1),('a',2),('b', 2)))
-    rdd.aggregateByKey(0)(
-      (x,y)=>math.max(x,y),
-      (x,y)=>x+y
+    rdd.aggregateByKey("a")(
+      (x,y)=>x+math.pow(y,2).toString, //y是Value
+      (x,y)=>x+y //分区间拼接字符串 是分区间不是分组间
     ).collect().foreach(println)
   }
 
@@ -28,7 +35,7 @@ object ByKeyOperations {
 
 
   def main(args: Array[String]): Unit = {
-    // aggregate()
+    aggregate()
     // groupBy()
     reduceBy()
     sc.stop()

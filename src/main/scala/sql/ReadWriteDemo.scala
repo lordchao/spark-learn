@@ -44,18 +44,19 @@ object ReadWriteDemo {
     //    connectionProperties.setProperty("user", "root")
     //    connectionProperties.setProperty("password", "password")
 
-    df.write
-      .format("jdbc")
-      .option("url", "jdbc:mysql://localhost:3307/spark_learn")
-      .option("user","root")
-      .option("password", "password")
-      .option("dbtable", "weblog")
-      .mode("overwrite")
-      .save()
+//    df.write
+//      .format("jdbc")
+//      .option("url", "jdbc:mysql://localhost:3307/spark_learn")
+//      .option("user","root")
+//      .option("password", "password")
+//      .option("dbtable", "weblog")
+//      .mode("overwrite")
+//      .save()
 
   }
   def main(args: Array[String]): Unit = {
-    tmpTableDemo()
+    //tmpTableDemo()
+    writeDemo()
     spark.close()
   }
 }
